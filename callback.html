@@ -23,7 +23,7 @@
     // Hand the authorization code back to the local dashboard.
     statusEl.innerHTML = '<span class="ok">Authorization received.</span> Redirecting to your dashboard…';
     detailEl.innerHTML = 'If nothing happens, copy this code into the dashboard: <code>' + params.get('code') + '</code>';
-    window.location.href = 'http://localhost:8080/tiktok/callback' + q;
+    window.location.href = 'http://localhost:5173/tiktok/callback' + q;
   } else if (params.get('error')) {
     statusEl.innerHTML = '<span class="err">Authorization failed:</span> ' + (params.get('error_description') || params.get('error'));
   } else {
