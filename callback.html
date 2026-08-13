@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TikTok Authorization — Eureka Dashboard</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; max-width: 640px; margin: 0 auto; padding: 48px 24px; line-height: 1.6; color: #1a1a1a; background: #fff; }
+  code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; word-break: break-all; }
+  .ok { color: #0a7d32; } .err { color: #b00020; }
+</style>
+</head>
+<body>
+<h1>TikTok Authorization</h1>
+<p id="status">Completing authorization…</p>
+<p id="detail"></p>
+<script>
+  var q = window.location.search;
+  var params = new URLSearchParams(q);
+  var statusEl = document.getElementById('status');
+  var detailEl = document.getElementById('detail');
+  if (params.get('code')) {
+    // Hand the authorization code back to the local dashboard.
+    statusEl.innerHTML = '<span class="ok">Authorization received.</span> Redirecting to your dashboard…';
+    detailEl.innerHTML = 'If nothing happens, copy this code into the dashboard: <code>' + params.get('code') + '</code>';
+    window.location.href = 'http://localhost:8080/tiktok/callback' + q;
+  } else if (params.get('error')) {
+    statusEl.innerHTML = '<span class="err">Authorization failed:</span> ' + params.get('error_description') || params.get('error');
+  } else {
+    statusEl.textContent = 'This page is used during TikTok account authorization for Eureka Dashboard.';
+  }
+</script>
+</body>
+</html>
