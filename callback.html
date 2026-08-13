@@ -25,7 +25,7 @@
     detailEl.innerHTML = 'If nothing happens, copy this code into the dashboard: <code>' + params.get('code') + '</code>';
     window.location.href = 'http://localhost:8080/tiktok/callback' + q;
   } else if (params.get('error')) {
-    statusEl.innerHTML = '<span class="err">Authorization failed:</span> ' + params.get('error_description') || params.get('error');
+    statusEl.innerHTML = '<span class="err">Authorization failed:</span> ' + (params.get('error_description') || params.get('error'));
   } else {
     statusEl.textContent = 'This page is used during TikTok account authorization for Eureka Dashboard.';
   }
