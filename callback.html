@@ -20,10 +20,17 @@
   var statusEl = document.getElementById('status');
   var detailEl = document.getElementById('detail');
   if (params.get('code')) {
-    // Hand the authorization code back to the local dashboard.
+    // Hand the authorization code back to the dashboard. `localhost` is
+    // right on the Mac the panel runs on; from a phone it does not exist,
+    // so the same forward is offered as a tap towards the Mac's home-LAN
+    // address before the automatic jump fires.
+    var local = 'http://localhost:5173/tiktok/callback' + q;
+    var lan = 'http://192.168.178.59:5173/tiktok/callback' + q;
     statusEl.innerHTML = '<span class="ok">Authorization received.</span> Redirecting to your dashboard…';
-    detailEl.innerHTML = 'If nothing happens, copy this code into the dashboard: <code>' + params.get('code') + '</code>';
-    window.location.href = 'http://localhost:5173/tiktok/callback' + q;
+    detailEl.innerHTML =
+      'On a phone? <a href="' + lan + '">Tap here to finish on the dashboard</a>.<br>' +
+      'If nothing happens on the computer, open: <code>' + local + '</code>';
+    setTimeout(function () { window.location.href = local; }, 1500);
   } else if (params.get('error')) {
     statusEl.innerHTML = '<span class="err">Authorization failed:</span> ' + (params.get('error_description') || params.get('error'));
   } else {
