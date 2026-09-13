@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TikTok Authorization — Eureka Dashboard</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; max-width: 640px; margin: 0 auto; padding: 48px 24px; line-height: 1.6; color: #1a1a1a; background: #fff; }
+  code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; word-break: break-all; }
+  .ok { color: #0a7d32; } .err { color: #b00020; }
+</style>
+</head>
+<body>
+<h1>TikTok Authorization</h1>
+<p id="status">Completing authorization…</p>
+<p id="detail"></p>
+<script>
+  var q = window.location.search;
+  var params = new URLSearchParams(q);
+  var statusEl = document.getElementById('status');
+  var detailEl = document.getElementById('detail');
+  if (params.get('code')) {
+    // Hand the authorization code back to the dashboard. `localhost` is
+    // right on the Mac the panel runs on; from a phone it does not exist,
+    // so the same forward is offered as a tap towards the Mac's home-LAN
+    // address before the automatic jump fires.
+    var local = 'http://localhost:5173/tiktok/callback' + q;
+    var lan = 'http://192.168.178.59:5173/tiktok/callback' + q;
+    statusEl.innerHTML = '<span class="ok">Authorization received.</span> Redirecting to your dashboard…';
+    detailEl.innerHTML =
+      'On a phone? <a href="' + lan + '">Tap here to finish on the dashboard</a>.<br>' +
+      'If nothing happens on the computer, open: <code>' + local + '</code>';
+    setTimeout(function () { window.location.href = local; }, 1500);
+  } else if (params.get('error')) {
+    statusEl.innerHTML = '<span class="err">Authorization failed:</span> ' + (params.get('error_description') || params.get('error'));
+  } else {
+    statusEl.textContent = 'This page is used during TikTok account authorization for Eureka Dashboard.';
+  }
+</script>
+</body>
+</html>
